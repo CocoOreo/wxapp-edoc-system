@@ -1,14 +1,14 @@
 <template>
   <div @click="clickHandle" class="container">
-    <HeaderText/>
-    <TabCard/>
+    <van-grid direction="horizontal" column-num="1" gutter="10">
+      <van-grid-item icon="photo-o" text="文字" />
+      <van-grid-item icon="photo-o" text="文字" />
+      <van-grid-item icon="photo-o" text="文字" />
+    </van-grid>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
-import TabCard from './components/tab-card'
-import HeaderText from './components/header-text'
 
 export default {
   data () {
@@ -22,9 +22,6 @@ export default {
   },
 
   components: {
-    card,
-    TabCard,
-    HeaderText
   },
 
   methods: {
@@ -50,8 +47,7 @@ export default {
 
 <style scoped>
 .container {
-  background-color:#EFEFEF;
-  min-height:100vh;
+  padding-top:2vh;
 }
 
 .userinfo {

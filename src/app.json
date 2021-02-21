@@ -11,9 +11,9 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#999",
-    "backgroundColor": "#fafafa",
-    "selectedColor": "#333",
+    "color": "#8F8F8F",
+    "backgroundColor": "white",
+    "selectedColor": "#242424",
     "borderStyle": "white",
 
     "list": [{
@@ -22,10 +22,10 @@
       "iconPath": "static/tabs/home.png",
       "selectedIconPath": "static/tabs/home-active.png"
     }, {
-      "text": "订单",
+      "text": "文档",
       "pagePath": "pages/logs/main",
-      "iconPath": "static/tabs/orders.png",
-      "selectedIconPath": "static/tabs/orders-active.png"
+      "iconPath": "static/tabs/library.png",
+      "selectedIconPath": "static/tabs/library-active.png"
     }],
 
     "items": [{
@@ -42,6 +42,12 @@
     "position": "bottom"
   },
   "usingComponents": {
-    "van-button": "@vant/weapp/button/index"
+    "van-button": "@vant/weapp/button/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-row": "@vant/weapp/row/index",
+    "van-col": "@vant/weapp/col/index",
+    "van-grid": "@vant/weapp/grid/index",
+    "van-grid-item": "@vant/weapp/grid-item/index"
   }
 }
