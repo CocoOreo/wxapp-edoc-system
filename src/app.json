@@ -40,5 +40,8 @@
       "activeIcon": "static/tabs/orders-active.png"
     }],
     "position": "bottom"
+  },
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index"
   }
 }
