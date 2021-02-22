@@ -29,10 +29,6 @@ export default {
       } else {
         mpvue.navigateTo({ url })
       }
-    },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
     }
   },
 

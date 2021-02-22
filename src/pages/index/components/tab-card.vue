@@ -1,7 +1,7 @@
 <template>
   <div @click="clickHandle" class="container">
     <van-grid direction="horizontal" column-num="1" gutter="10">
-      <van-grid-item icon="photo-o" text="文字" />
+      <van-grid-item icon="photo-o" text="拍照" @click="takePhoto" />
       <van-grid-item icon="photo-o" text="文字" />
       <van-grid-item icon="photo-o" text="文字" />
     </van-grid>
@@ -17,7 +17,8 @@ export default {
       userInfo: {
         nickName: 'mpvue',
         avatarUrl: 'http://mpvue.com/assets/logo.png'
-      }
+      },
+      res: {}
     }
   },
 
@@ -33,9 +34,16 @@ export default {
         mpvue.navigateTo({ url })
       }
     },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
+    takePhoto () {
+      console.log('taking photo')
+      const ctx = wx.createCameraContext()
+      ctx.takePhoto({
+        quality: 'high',
+        success: (res) => {
+          this.res = res
+          console.log(this.res)
+        }
+      })
     }
   },
 

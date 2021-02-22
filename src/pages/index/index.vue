@@ -7,6 +7,8 @@
 
 <script>
 import card from '@/components/card'
+// import {  } from '@/api/'
+// 对应接口封装在api文件夹，未来开发直接解构引用
 import TabCard from './components/tab-card'
 import HeaderText from './components/header-text'
 
@@ -35,10 +37,6 @@ export default {
       } else {
         mpvue.navigateTo({ url })
       }
-    },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
     }
   },
 
