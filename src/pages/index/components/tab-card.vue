@@ -2,13 +2,15 @@
   <div @click="clickHandle" class="container">
     <van-grid direction="horizontal" column-num="1" gutter="10">
       <van-grid-item icon="photo-o" text="拍照" @click="takePhoto" />
-      <van-grid-item icon="photo-o" text="文字" />
+      <van-grid-item icon="photo-o" text="文字" @click="confirmAuth"/>
       <van-grid-item icon="photo-o" text="文字" />
     </van-grid>
+    <van-dialog id="van-dialog" />
   </div>
 </template>
 
 <script>
+import { confirmAuth } from '@/utils/checkAuth'
 
 export default {
   data () {
@@ -35,15 +37,21 @@ export default {
       }
     },
     takePhoto () {
+      const url = '../document/main'
       console.log('taking photo')
-      const ctx = wx.createCameraContext()
-      ctx.takePhoto({
-        quality: 'high',
-        success: (res) => {
-          this.res = res
-          console.log(this.res)
-        }
-      })
+      mpvue.navigateTo({url})
+      // const ctx = wx.createCameraContext()
+      // ctx.takePhoto({
+      //   quality: 'high',
+      //   success: (res) => {
+      //     this.res = res
+      //     console.log(this.res)
+      //   }
+      // })
+    },
+    confirmAuth () {
+      console.log('hello')
+      confirmAuth()
     }
   },
 

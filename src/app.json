@@ -2,7 +2,9 @@
   "pages": [
     "pages/index/main",
     "pages/logs/main",
-    "pages/counter/main"
+    "pages/counter/main",
+    "pages/auth/main",
+    "pages/document/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -43,11 +45,17 @@
   },
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
+    "van-icon": "@vant/weapp/icon/index",
     "van-tab": "@vant/weapp/tab/index",
     "van-tabs": "@vant/weapp/tabs/index",
+    "van-dialog": "@vant/weapp/dialog/index",
     "van-row": "@vant/weapp/row/index",
     "van-col": "@vant/weapp/col/index",
     "van-grid": "@vant/weapp/grid/index",
-    "van-grid-item": "@vant/weapp/grid-item/index"
+    "van-grid-item": "@vant/weapp/grid-item/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-picker": "@vant/weapp/picker/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-image": "@vant/weapp/image/index"
   }
 }
