@@ -39,6 +39,7 @@ export const errorHandle = (res) => {
 }
 
 export const request = async (options = {}) => {
+  console.log('调用request方法')
   // 考虑与微信的接口进行兼容
   const { success, fail } = options
   const key = options.url + '&' + (options.method || 'GET')
@@ -58,7 +59,9 @@ export const request = async (options = {}) => {
     )
   }
   options.url = baseUrl + options.url
+  console.log('即将进入到Promise中，url:', options.url)
   const result = new Promise((resolve, reject) => {
+    console.log('进入到Promise中')
     wx.showLoading()
     const handler = wx.request(
       Object.assign({}, options, {
@@ -100,6 +103,7 @@ export const request = async (options = {}) => {
       pending[key] = handler
     }, 0)
   })
+  console.log('打印result', result)
   return result
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <div class="logo">
-      <img src="/static/images/logo.jpg" mode="widthFix" />
+      <img src="/static/images/logo.png" mode="widthFix" />
     </div>
     <van-button
       size="large"
@@ -42,6 +42,7 @@ export default {
     },
     async _wxLogin (e) {
       const user = e.mp.detail
+      console.log(user)
       // await StoreUser.set(e.mp.detail)
       const result = await wxLogin({ code: this.code, user: user })
       if (result.code === 200) {

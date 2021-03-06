@@ -14,6 +14,7 @@ class Storage {
   }
 
   async get () {
+    console.log('进入到GetStore')
     let result = ''
     try {
       result = await wx.getStorage({ key: this.key })
