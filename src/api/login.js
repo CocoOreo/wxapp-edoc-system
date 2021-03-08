@@ -51,10 +51,7 @@ const reg = (regInfo) => {
  */
 const reset = (info) => axios.post('/login/reset', { ...info })
 
-const wxLogin = (data) => {
-  console.log('登录信息', data)
-  axios.post('/login/wxLogin', data)
-}
+const wxLogin = (data) => axios.post('/login/wxLogin', data)
 
 const getSubIds = () => axios.get('/public/getSubIds')
 

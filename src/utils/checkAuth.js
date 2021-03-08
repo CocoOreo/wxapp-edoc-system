@@ -1,9 +1,10 @@
 import wx from '@/utils/wx'
 import { StoreToken } from '@/utils/wxstore'
 import Dialog from '@vant/weapp/dist/dialog/dialog'
+
 // 1. 检验用户session_key是否过期
 // 2. 如果过期，则跳转至auth页面
-
+// 3. 这一部分允许客户端不用联系服务器，即可确认回话是否过期，也就是服务器不需要再与微信通信
 export const checkSession = async () => {
   try {
     await wx.checkSession()

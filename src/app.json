@@ -4,7 +4,7 @@
     "pages/logs/main",
     "pages/counter/main",
     "pages/auth/main",
-    "pages/document/main"
+    "pages/newDoc/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

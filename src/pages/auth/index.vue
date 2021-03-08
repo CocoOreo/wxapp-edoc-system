@@ -42,12 +42,14 @@ export default {
     },
     async _wxLogin (e) {
       const user = e.mp.detail
-      console.log(user)
       // await StoreUser.set(e.mp.detail)
-      const result = await wxLogin({ code: this.code, user: user })
-      if (result.code === 200) {
-        await StoreToken.set(result.token)
-        await StoreUser.set(result.data)
+      const res = await wxLogin({ code: this.code, user: user })
+
+      if (res.code === 200) {
+        // console.log('登录服务器返回数据成功，状态吗为200，打印Token', res.token)
+        await StoreToken.set(res.token)
+        // console.log('已存储Token', res.token)
+        await StoreUser.set(res.data)
         wx.navigateBack()
       }
     }

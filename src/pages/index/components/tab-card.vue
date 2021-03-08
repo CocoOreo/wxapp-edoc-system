@@ -37,7 +37,7 @@ export default {
       }
     },
     takePhoto () {
-      const url = '../document/main'
+      const url = '../newDoc/main'
       console.log('taking photo')
       mpvue.navigateTo({url})
       // const ctx = wx.createCameraContext()
