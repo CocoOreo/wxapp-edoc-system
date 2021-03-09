@@ -5,7 +5,7 @@
     </div>
     <van-button
       size="large"
-      color="#02D199"
+      color="#101010"
       class="btn"
       open-type="getUserInfo"
       @getuserinfo="_wxLogin"

@@ -43,10 +43,8 @@
         </picker>
         <div class="btn-wrap">
           <van-button class="btn-add" color="#2D2D2D" round 
-          style="border-top-right-radius: 0;border-bottom-right-radius: 0" 
-          @click="submit()">+继续拍照</van-button>
+          @click="handleTakePhoto">+继续拍照</van-button>
           <van-button class="btn-submit" color="#101010" round 
-          style="border-top-left-radius: 0;border-bottom-left-radius: 0;" 
           @click="submit()">发布</van-button>
         </div>
     </div>
@@ -54,6 +52,7 @@
 
 <script>
 import { uploadImg } from '@/utils/upload'
+import globalStore from '../../store/store'
 
 export default {
   name: 'photo',
@@ -68,10 +67,24 @@ export default {
       favsIndex: ''
     }
   },
+  onShow () {
+    // 检查是否有拍照的照片
+    console.log('doc页面显示')
+    if (globalStore.state.photoUrl) {
+      console.log('跨页面获取到了照片', globalStore.state.photoUrl)
+      const file = {'url': globalStore.state.photoUrl, 'isPhoto': true}
+      this.fileList.push(file)
+      globalStore.state.photoUrl = ''
+    }
+  },
   methods: {
+    async handleTakePhoto () {
+      wx.navigateBack()
+    },
     async afterRead (e) {
       console.log('afterRead -> e.mp.detail', e.mp.detail)
       const file = e.mp.detail.file
+      console.log('打印VANT的文件信息', file)
       uploadImg(file).then((res) => {
         console.log('afterRead -> res', res)
         if (res.code === 200) {
@@ -133,9 +146,14 @@ export default {
 
 .btn-add {
   margin-right: 10px;
+  border-top-left-radius: 0px  !important;
+  border-bottom-left-radius: 0px !important;
 }
+
 
 .btn-submit {
   margin-left: 10px;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
 }
 </style>

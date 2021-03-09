@@ -1,27 +1,43 @@
 <template >
     <div>
-        <camera device-position="back" flash="off" binderror="error" style="width: 100%; height: 300px;"></camera>
-        <button type="primary" @click="takePhoto">拍照</button>
-        <div>预览</div>
-        <image mode="widthFix"></image>
+        <camera device-position="back" flash="off" binderror="error" style="width: 100%; height: 85vh;"></camera>
+        <van-row class="btn-wrap">
+          <van-button 
+          type="primary"  
+          icon="photograph" 
+          round block
+          @click="takePhoto" 
+          color="linear-gradient(to right, #1c1c1c, #101010)">拍照</van-button>
+        </van-row>
     </div>
 </template>
 
 <script>
+import globalStore from '../../store/store'
+
 export default {
-  data () {
-    return {
-      imgSrc: ''
+
+  onShow () {
+    let photoUrl = globalStore.photoUrl
+    if (photoUrl) {
+      console.log('全局变量', photoUrl)
+    } else {
+      console.log('初始化全部变量成功', photoUrl)
     }
   },
 
-  method: {
+  methods: {
     takePhoto () {
+      console.log('camera opended')
       const ctx = wx.createCameraContext()
       ctx.takePhoto({
         quality: 'high',
         success: (res) => {
-          this.imgSrc = res.tempImagePath
+          globalStore.state.photoUrl = res.tempImagePath
+          const url = '/pages/newDoc/main'
+          setTimeout(() => {
+            wx.navigateTo({url})
+          }, 500)
         }
       })
     },
@@ -33,5 +49,9 @@ export default {
 }
 </script>
 <style scoped>
-    
+.btn-wrap {
+  display:flex;
+  justify-content:center;
+  margin: 15px;
+}
 </style>
