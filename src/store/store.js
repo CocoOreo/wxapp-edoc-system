@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     catalog: '',
     contentOffset: 0,
-    photoUrl: ''
+    photoUrl: '',
+    isAdded: false
   },
   mutations: {
     setCatalog (state, value) {

@@ -1,6 +1,6 @@
 <template>
   <div @click="clickHandle">
-    <van-row gutter="16" class="container">
+    <van-row gutter="20" class="container">
       <van-col span="12" @click="navToCamera">
         <van-row>
           <van-image
@@ -10,34 +10,34 @@
           />
         </van-row>
         <van-row class="func-desc">
-          <p>拍照</p>
+          <p>拍照制作文档</p>
         </van-row>
       </van-col>
-      <van-col span="12" @click="navToLibrary">
+      <van-col span="12" @click="navToNewDoc">
         <van-row>
            <van-image
             width="36vw"
             fit="widthFix"
-            src="/static/images/library.png"
+            src="/static/images/graph.png"
             />
         </van-row>
         <van-row class="func-desc">
-          文档
+          从相册制作文档
         </van-row>
       </van-col>      
     </van-row>
     <van-row gutter="16" class="container">
-      <van-col span="12" @click="navToDoc">
+      <van-col span="12" @click="navToLibrary">
         <van-row>
           <van-image
             width="36vw"
             fit="widthFix"
-            src="/static/images/camera.png"
+            src="/static/images/library.png"
             style="font-size:0"
           />
         </van-row>
         <van-row class="func-desc">
-          <p>拍照</p>
+          <p>文档库</p>
         </van-row>
       </van-col>
       <van-col span="12" @click="navToLibrary">
@@ -45,7 +45,7 @@
            <van-image
             width="36vw"
             fit="widthFix"
-            src="/static/images/library.png"
+            src="/static/images/camera.png"
             />
         </van-row>
         <van-row class="func-desc">
@@ -91,7 +91,7 @@ export default {
         mpvue.navigateTo({ url })
       }
     },
-    navToDoc () {
+    navToNewDoc () {
       // 判断用户是否已经登录，登录之后才能使用拍照功能
       if (!this.isLogin) {
         confirmAuth()
@@ -116,12 +116,8 @@ export default {
     },
 
     navToLibrary () {
-      if (!this.isLogin) {
-        confirmAuth()
-      } else {
-        const url = '../newDoc/main'
-        wx.navigateTo({url})
-      }
+      const url = '../library/main'
+      wx.navigateTo({url})
     }
   },
 

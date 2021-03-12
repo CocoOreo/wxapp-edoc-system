@@ -5,7 +5,8 @@
     "pages/counter/main",
     "pages/auth/main",
     "pages/newDoc/main",
-    "pages/camera/main"
+    "pages/camera/main",
+    "pages/library/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -57,6 +58,7 @@
     "van-uploader": "@vant/weapp/uploader/index",
     "van-picker": "@vant/weapp/picker/index",
     "van-field": "@vant/weapp/field/index",
-    "van-image": "@vant/weapp/image/index"
+    "van-image": "@vant/weapp/image/index",
+    "van-divider": "@vant/weapp/divider/index"
   }
 }

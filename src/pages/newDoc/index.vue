@@ -27,6 +27,8 @@
             <span>猫咪图片</span>
           </van-col>
         </van-row>
+        <!-- 电子文档描述 -->
+        <van-field placeholder="请输入电子文档描述" :value="docDesc" type="textarea" class="edit-content"></van-field>
         <!-- 上传文档选项 -->
         <div class="upload-img">
           <van-uploader @afterRead="afterRead" :fileList="fileList" @delete="deteleImg"></van-uploader>
@@ -68,23 +70,28 @@ export default {
     }
   },
   onShow () {
-    // 检查是否有拍照的照片
-    console.log('doc页面显示')
-    if (globalStore.state.photoUrl) {
-      console.log('跨页面获取到了照片', globalStore.state.photoUrl)
-      const file = {'url': globalStore.state.photoUrl, 'isPhoto': true}
-      this.fileList.push(file)
-      globalStore.state.photoUrl = ''
-    }
+    this.handleCameraImg()
+  },
+  onUnload () {
+    this.handleClear()
   },
   methods: {
     async handleTakePhoto () {
-      wx.navigateBack()
+      const url = '../camera/main'
+      wx.navigateTo({url})
     },
-    async afterRead (e) {
-      console.log('afterRead -> e.mp.detail', e.mp.detail)
-      const file = e.mp.detail.file
-      console.log('打印VANT的文件信息', file)
+    async handleCameraImg () {
+      // 检查是否有拍照的照片
+      if (globalStore.state.photoUrl) {
+        // 照相机页面获取到了照片
+        console.log('跨页面获取到了照片', globalStore.state.photoUrl)
+        const file = {'url': globalStore.state.photoUrl, 'isPhoto': true}
+        this.handleUpload(file)
+        globalStore.state.photoUrl = ''
+      }
+    },
+
+    async handleUpload (file) {
       uploadImg(file).then((res) => {
         console.log('afterRead -> res', res)
         if (res.code === 200) {
@@ -104,6 +111,18 @@ export default {
         }
       })
     },
+    async afterRead (e) {
+      const file = e.mp.detail.file
+      console.log('打印VANT的文件信息', file)
+      this.handleUpload(file)
+    },
+    async submit () {
+      const data = {
+        img_list: this.imgList,
+        doc_desc: this.docDesc
+      }
+      console.log('提交的内容data->', data)
+    },
     deteleImg (e) {
       this.fileList.splice(e.mp.detail.index, 1)
       this.imgList.splice(e.mp.detail.index, 1)
@@ -113,6 +132,12 @@ export default {
     },
     changeFavs (e) {
       this.favsIndex = e.target.value
+    },
+    handleClear () {
+      console.log('执行了清空操作')
+      this.fileList.splice(0, this.fileList.length)
+      this.imgList.splice(0, this.imgList.length)
+      this.docDesc = ''
     }
   }
 }
@@ -150,10 +175,12 @@ export default {
   border-bottom-left-radius: 0px !important;
 }
 
-
 .btn-submit {
   margin-left: 10px;
   border-bottom-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
+}
+.edit-content {
+  --field-text-area-min-height: 350px;
 }
 </style>

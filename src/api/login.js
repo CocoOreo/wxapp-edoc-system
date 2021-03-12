@@ -55,4 +55,6 @@ const wxLogin = (data) => axios.post('/login/wxLogin', data)
 
 const getSubIds = () => axios.get('/public/getSubIds')
 
-export { getCode, forget, login, reg, reset, wxLogin, getSubIds }
+const testUpload = (file) => axios.post('/content/upload', file)
+
+export { getCode, forget, login, reg, reset, wxLogin, getSubIds, testUpload }

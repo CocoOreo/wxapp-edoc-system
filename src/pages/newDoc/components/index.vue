@@ -26,7 +26,7 @@
       ></van-field>
     </picker>
     <div class="btn-wrap">
-      <van-button  class="btn-wrap" size="large" type="primary" @click="submit()">发布</van-button>
+      <van-button  size="large" type="primary" @click="submit()">发布</van-button>
     </div>
   </div>
 </template>
