@@ -36,7 +36,7 @@ export default {
           globalStore.state.photoUrl = res.tempImagePath
           const url = '/pages/newDoc/main'
           setTimeout(() => {
-            wx.navigateTo({url})
+            wx.redirectTo({url})
           }, 500)
         }
       })

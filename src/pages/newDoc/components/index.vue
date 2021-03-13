@@ -8,7 +8,7 @@
     <picker @change="changePostType" :value="block[blockIndex]" :range="block" class="picker">
       <van-field
         disabled
-        label="发贴类型"
+        label="文档类型"
         inputAlign="right"
         placeholder="请选择"
         isLink
@@ -33,6 +33,7 @@
 
 <script>
 import { uploadImg } from '@/utils/upload'
+import { addNewDoc } from '@/api/doc'
 export default {
   name: 'newPost',
   data () {
@@ -41,8 +42,8 @@ export default {
       content: '',
       fileList: [],
       imgList: [],
-      block: ['请选择', '提问', '分享', '讨论', '建议'],
-      blockValue: ['', 'ask', 'share', 'discuss', 'advise'],
+      block: ['请选择', '工作', '生活', '学习', '计划'],
+      blockValue: ['', 'work', 'life', 'study', 'plan'],
       blockIndex: 0,
       favs: [20, 30, 50, 60, 80],
       favsIndex: ''
@@ -71,6 +72,51 @@ export default {
         }
       })
     },
+
+    async submit () {
+      // 文章内容是否为空的判断
+      // if (this.title.trim() === '') {
+      //   wx.showToast({
+      //     title: '上传失败，原因：' + res.errmsg,
+      //     icon: 'none',
+      //     duration: 2000
+      //   })
+      //   return
+      // }
+      // 添加新的文章
+      console.log('参数如下', {
+        title: this.title,
+        catalog: this.block[this.blockIndex].value,
+        content: this.content,
+        img_list: this.imgList
+      })
+      addNewDoc({
+        title: this.title,
+        catalog: this.block[this.blockIndex].value,
+        content: this.content,
+        img_list: this.imgList
+      }).then((res) => {
+        if (res.code === 200) {
+          wx.showToast({
+            title: '文档保存成功',
+            icon: 'none',
+            duration: 2000
+          })
+          // 清空已经发布的内容
+          setTimeout(() => {
+            const url = '/pages/index/main'
+            wx.redirectTo({ url })
+          }, 2000)
+        } else {
+          wx.showToast({
+            title: '文档上传失败，原因：' + res.errmsg,
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      })
+    },
+
     deteleImg (e) {
       this.fileList.splice(e.mp.detail.index, 1)
       this.imgList.splice(e.mp.detail.index, 1)

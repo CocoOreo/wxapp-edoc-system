@@ -15,6 +15,6 @@ const reg = (regInfo) => {
  * @param {*} info 重置密码信息
  */
 
-const submitNewDoc = (data) => axios.post('/content/newDoc', data)
+const addNewDoc = (data) => axios.post('/content/wxAdd', data)
 
-export { reg, submitNewDoc }
+export { reg, addNewDoc }
