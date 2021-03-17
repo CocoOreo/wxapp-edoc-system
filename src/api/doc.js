@@ -1,4 +1,5 @@
 import { axios } from '@/utils/request'
+import { StoreToken } from '@/utils/wxstore'
 
 /**
  * 注册接口
@@ -17,4 +18,23 @@ const reg = (regInfo) => {
 
 const addNewDoc = (data) => axios.post('/content/wxAdd', data)
 
-export { reg, addNewDoc }
+const getList = async (options) => {
+  return axios.get('/content/list', options)
+}
+
+// 获取文章详情
+const getDetail = async (tid) => {
+  // const token = store.state.token
+  const token = await StoreToken.get()
+  let headers = {}
+  if (token !== '') {
+    headers = {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    }
+  }
+  return axios.get('/content/detail', {tid}, headers)
+}
+
+export { reg, addNewDoc, getList, getDetail }

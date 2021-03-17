@@ -17,6 +17,45 @@
         <div class="upload-img">
           <van-uploader @afterRead="afterRead" :fileList="fileList" @delete="deteleImg"></van-uploader>
         </div>
+        <!-- 文档分享列表 -->
+        <van-cell center title="查看分享列表"  is-link="true"  @click="handleShowPop" />
+        <van-popup
+            :show="showPop"
+            round
+            position="bottom"
+            custom-style="height: 90%"
+            @close="handleShowPop"
+        >
+            <van-row class="pop-wrap">
+                <van-swipe-cell 
+                  v-for="(item,index) of fileList"
+                  v-if="item.isShared" 
+                  :key="item.url" 
+                  right-width="64"
+                  async-close
+                  @close="handleDeleteShared($event,index)"
+                  >
+                  <div class="card-wrap">
+                    <van-card
+                      custom-class="shared-card"
+                      title="商品标题"
+                      :thumb="item.url"
+                    />
+                  </div>
+                  <div slot="right" class="swipe-cell">删除</div>
+                </van-swipe-cell>
+                <div class="btn-wrap">
+                    <van-button 
+                        @click="handleResetShared"
+                        color="linear-gradient(to right, #3C3C3C, #3E3E3E)" 
+                        round 
+                        custom-style="box-shadow:0px 2px 2px #3C3C3C; font-size:12px; padding: 4px 20vw">
+                        重置分享列表
+                    </van-button>
+                </div>
+            </van-row>
+        </van-popup>
+        <!-- 文档类型 -->
         <picker @change="changePostType" :value="block[blockIndex]" :range="block" class="picker">
           <van-field
             disabled
@@ -54,14 +93,18 @@ export default {
   data () {
     return {
       docDesc: '',
+      // 文件对象
       fileList: [],
+      // 服务器返回的字符串
       imgList: [],
+      sharedImgList: [],
       block: ['请选择', '工作', '生活', '学习', '计划'],
-      blockValue: ['', 'work', 'life', 'study', 'plan'],
+      blockValue: ['default', 'work', 'life', 'study', 'plan'],
       blockIndex: 0,
       favs: [20, 30, 50, 60, 80],
       favsIndex: '',
-      isLoading: false
+      isLoading: false,
+      showPop: false
     }
   },
   onShow () {
@@ -92,8 +135,11 @@ export default {
       uploadImg(file).then((res) => {
         this.isLoading = false
         if (res.code === 200) {
+          // 初始情况下，每个图片都可被分享
+          file.isShared = true
           this.fileList.push(file)
           this.imgList.push(res.data)
+          this.sharedImgList.push(res.data)
           wx.showToast({
             title: '上传成功',
             icon: 'none',
@@ -116,9 +162,10 @@ export default {
       this.isLoading = true
       addNewDoc({
         title: this.title || '我的文档',
-        catalog: this.block[this.blockIndex],
+        catalog: this.blockValue[this.blockIndex],
         content: this.docDesc || '每个人都有需要记录的故事',
-        img_list: this.imgList
+        img_list: this.imgList,
+        shared_img_list: this.sharedImgList
       }).then((res) => {
         this.isLoading = false
         if (res.code === 200) {
@@ -145,6 +192,7 @@ export default {
     deteleImg (e) {
       this.fileList.splice(e.mp.detail.index, 1)
       this.imgList.splice(e.mp.detail.index, 1)
+      this.sharedImgList.splice(e.mp.detail.index, 1)
     },
     changePostType (e) {
       this.blockIndex = e.target.value
@@ -155,8 +203,51 @@ export default {
     handleClear () {
       this.fileList.splice(0, this.fileList.length)
       this.imgList.splice(0, this.imgList.length)
+      this.sharedImgList.splice(0, this.imgList.length)
       this.docDesc = ''
       this.blockIndex = 0
+    },
+    handleShowPop () {
+      this.showPop ? this.showPop = false : this.showPop = true
+    },
+    handleResetShared () {
+      try {
+        this.sharedImgList = this.imgList
+        this.fileList.forEach(file => {
+          if (!file.isShared) {
+            file.isShared = true
+          }
+        })
+        console.log('查看初始FileList', this.fileList)
+        wx.showToast({
+          title: '分享列表重置成功'}
+        )
+      } catch (error) {
+        wx.showToast({
+          title: '分享列表重置失败'}
+        )
+      }
+    },
+    handleDeleteShared (e, index) {
+      const { position, instance } = e.target
+      switch (position) {
+        case 'left':
+          instance.close()
+          break
+        case 'cell':
+          instance.close()
+          break
+        case 'right':
+          console.log('进入到instance close中了', position)
+          instance.close()
+          this.fileList[index].isShared = false
+          this.sharedImgList.splice(index, 1)
+          break
+      }
+      // 初始情况下，所有图片都可被分享，这一部分允许用户删除照片
+      console.log('handle delete shared img', e.target)
+      console.log('目前的分享文件列表', this.fileList)
+      console.log('目前的分享文件列表', this.sharedImgList)
     }
   }
 }
@@ -165,7 +256,7 @@ export default {
 <style scoped>
 .container {
   padding-top:28px;
-  padding-bottom: 1vh;
+  padding-bottom: 2vh;
   background-color:white;
   font-family: PingFangSC-bold;
 }
@@ -208,5 +299,27 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
+}
+.pop-wrap {
+    padding: 20px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+.card-wrap {
+  width: 85vw;
+  height: 20vh;
+}
+.swipe-cell {
+  display: inline-block;
+  height: 20vh;
+  width: 64px;
+  font-size: 16px;
+  line-height: 20vh;
+  color: #fff;
+  text-align: center;
+  background-color: #f44;
 }
 </style>

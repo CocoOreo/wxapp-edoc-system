@@ -39,7 +39,6 @@ export const errorHandle = (res) => {
 }
 
 export const request = async (options = {}) => {
-  console.log('调用request方法')
   // 考虑与微信的接口进行兼容
   const { success, fail } = options
   const key = options.url + '&' + (options.method || 'GET')

@@ -30,7 +30,7 @@ export default {
 <style scoped>
 .container {
   padding-top:28px;
-  padding-bottom: 1vh;
+  padding-bottom: 10px;
   background-color:white;
   font-family: PingFangSC-bold;
 }
