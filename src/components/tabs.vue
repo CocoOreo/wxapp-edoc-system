@@ -17,7 +17,11 @@ export default {
       tabs: [
         {
           key: '',
-          value: '全部'
+          value: '默认'
+        },
+        {
+          key: 'shared',
+          value: '分享'
         },
         {
           key: 'work',
@@ -34,10 +38,6 @@ export default {
         {
           key: 'plan',
           value: '计划'
-        },
-        {
-          key: 'shared',
-          value: '分享'
         }
       ]
     }

@@ -16,6 +16,12 @@ const reg = (regInfo) => {
  * @param {*} info 重置密码信息
  */
 
+/**
+ * 增加一份电子文档
+ * @param {*} data
+ * @returns
+ */
+
 const addNewDoc = (data) => axios.post('/content/wxAdd', data)
 
 const getList = async (options) => {
@@ -37,4 +43,18 @@ const getDetail = async (tid) => {
   return axios.get('/content/detail', {tid}, headers)
 }
 
-export { reg, addNewDoc, getList, getDetail }
+// 下载PDF
+const downloadPDF = async (tid) => {
+  // const token = store.state.token
+  const token = await StoreToken.get()
+  let headers = {}
+  if (token !== '') {
+    headers = {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    }
+  }
+  return axios.post('/content/downloadPDF', {tid}, headers)
+}
+export { reg, addNewDoc, getList, getDetail, downloadPDF }

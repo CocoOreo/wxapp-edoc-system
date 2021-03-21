@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@vant/weapp": "^1.5.3",
+    "compressorjs": "^1.0.7",
     "miniprogram-api-promise": "^1.0.4",
     "mpvue": "^2.0.0",
     "vuex": "^3.0.1"

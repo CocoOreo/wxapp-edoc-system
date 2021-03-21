@@ -18,7 +18,7 @@
           <van-uploader @afterRead="afterRead" :fileList="fileList" @delete="deteleImg"></van-uploader>
         </div>
         <!-- 文档分享列表 -->
-        <van-cell center title="查看分享列表"  is-link="true"  @click="handleShowPop" />
+        <van-cell center title="更改分享列表"  is-link="true"  @click="handleShowPop" />
         <van-popup
             :show="showPop"
             round
@@ -38,9 +38,11 @@
                   <div class="card-wrap">
                     <van-card
                       custom-class="shared-card"
-                      title="商品标题"
+                      title="分享内容"
+                      desc="左滑更改分享列表"
                       :thumb="item.url"
-                    />
+                    >
+                    </van-card>
                   </div>
                   <div slot="right" class="swipe-cell">删除</div>
                 </van-swipe-cell>
@@ -67,7 +69,8 @@
           ></van-field>
         </picker>
         <!-- 电子文档描述 -->
-        <van-field placeholder="请输入电子文档描述" :value="docDesc" type="textarea" class="edit-content"></van-field>
+        <van-field placeholder="请输入电子文档描述" :value="docDesc" @input="docDesc=$event.mp.detail" type="textarea" class="edit-content"></van-field>
+        <!-- 按钮组 -->
         <div class="btn-wrap">
           <van-button class="btn-add" color="#2D2D2D" round 
           @click="handleTakePhoto">+继续拍照</van-button>
@@ -179,7 +182,7 @@ export default {
           setTimeout(() => {
             const url = '/pages/index/main'
             wx.switchTab({ url })
-          }, 2000)
+          }, 500)
         } else {
           wx.showToast({
             title: '文档上传失败，原因：' + res.errmsg,
@@ -218,7 +221,6 @@ export default {
             file.isShared = true
           }
         })
-        console.log('查看初始FileList', this.fileList)
         wx.showToast({
           title: '分享列表重置成功'}
         )
@@ -238,16 +240,12 @@ export default {
           instance.close()
           break
         case 'right':
-          console.log('进入到instance close中了', position)
           instance.close()
           this.fileList[index].isShared = false
           this.sharedImgList.splice(index, 1)
           break
       }
       // 初始情况下，所有图片都可被分享，这一部分允许用户删除照片
-      console.log('handle delete shared img', e.target)
-      console.log('目前的分享文件列表', this.fileList)
-      console.log('目前的分享文件列表', this.sharedImgList)
     }
   }
 }
@@ -277,6 +275,7 @@ export default {
     align-items: center;
     justify-content: center;
     margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 .btn-add {

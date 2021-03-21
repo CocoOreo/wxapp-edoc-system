@@ -16,19 +16,8 @@
 import globalStore from '../../store/store'
 
 export default {
-
-  onShow () {
-    let photoUrl = globalStore.photoUrl
-    if (photoUrl) {
-      console.log('全局变量', photoUrl)
-    } else {
-      console.log('初始化全部变量成功', photoUrl)
-    }
-  },
-
   methods: {
     takePhoto () {
-      console.log('camera opended')
       const ctx = wx.createCameraContext()
       ctx.takePhoto({
         quality: 'high',

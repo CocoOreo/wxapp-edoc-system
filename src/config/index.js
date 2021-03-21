@@ -5,7 +5,7 @@ const isDev = process.env.NODE_ENV === 'development'
 export default {
   baseUrl: {
     dev: 'http://localhost:3000',
-    pro: ''
+    pro: 'http://159.75.140.167:3000'
   },
   publicPath: [/^\/public/, /^\/login/],
   wsconfig: {

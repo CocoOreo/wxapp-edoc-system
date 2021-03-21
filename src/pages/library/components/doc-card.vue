@@ -5,14 +5,14 @@
           @click="showDocDetail(item._id)">
             <van-row gutter="10">
               <van-col offset="1">
-                <van-image :src='item.poster_list[0]' image-class="doc-image" fit="widthFix" width="18vw" />
-                <van-image :src='item.poster_list[1]' image-class="doc-image" fit="widthFix" width="18vw" />
+                <van-image :src='item.poster_list[0]' image-class="doc-image" fit="fill" width="18vw" height="20vh" />
+                <van-image :src='item.poster_list[1]' image-class="doc-image" fit="fill" width="18vw" height="20vh" />
               </van-col>
             </van-row>
             <van-row>
               <van-col offset="1">
-                <van-image :src='item.poster_list[2]' image-class="doc-image" fit="widthFix" width="18vw" />
-                <van-image :src='item.poster_list[3]' image-class="doc-image" fit="widthFix" width="18vw" />
+                <van-image :src='item.poster_list[2]' image-class="doc-image" fit="fill" width="18vw" height="20vh" />
+                <van-image :src='item.poster_list[3]' image-class="doc-image" fit="fill" width="18vw" height="20vh" />
               </van-col>
             </van-row>
             <van-row style="margin-top:20px">
@@ -95,9 +95,6 @@ export default {
       wx.navigateTo({
         url: '/pages/doc/main?id=' + id
       })
-    },
-    handleChange (e) {
-      console.log(e)
     }
   }
 }

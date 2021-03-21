@@ -24,8 +24,7 @@ export default {
       list: [],
       limit: 10,
       isEnd: false,
-      isRepeat: false,
-      testList: [ 1, 2, 3, 4, 5, 6, 7, 8 ]
+      isRepeat: false
     }
   },
   watch: {
@@ -76,8 +75,6 @@ export default {
               this.list = this.list.concat(res.data)
             }
           }
-          console.log('list -> ', this.list)
-          console.log('testlist -> ', this.testList)
           // if (typeof this.handle === 'function') {
           //   // this.handle()
           // }
@@ -105,7 +102,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .fixed {
   position: fixed;
   width: 100%;

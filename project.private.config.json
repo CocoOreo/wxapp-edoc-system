@@ -1,0 +1,30 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "带uid参数分享",
+          "pathName": "pages/index/main",
+          "query": "uid=6045d31fdf3fea5d10fdf3c5",
+          "scene": null
+        },
+        {
+          "name": "带tid参数分享",
+          "pathName": "pages/index/main",
+          "query": "tid=604ebbc2adfb795cc1d087be",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

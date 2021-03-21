@@ -14,12 +14,10 @@ class Storage {
   }
 
   async get () {
-    console.log('进入到GetStore')
     let result = ''
     try {
       result = await wx.getStorage({ key: this.key })
     } catch (error) {
-      console.log('Storage -> get -> error', error)
     }
     return result.data ? result.data : result
   }

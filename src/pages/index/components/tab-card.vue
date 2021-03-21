@@ -1,7 +1,7 @@
 <template>
   <div @click="clickHandle">
     <van-row gutter="20" class="container">
-      <van-col span="12" @click="navToCamera">
+      <van-col span="12" @click="navToPage('camera')">
         <van-row>
           <van-image
             width="36vw"
@@ -13,7 +13,7 @@
           <p>拍照制作文档</p>
         </van-row>
       </van-col>
-      <van-col span="12" @click="navToNewDoc">
+      <van-col span="12" @click="navToPage('newDoc')">
         <van-row>
            <van-image
             width="36vw"
@@ -40,7 +40,7 @@
           <p>文档库</p>
         </van-row>
       </van-col>
-      <van-col span="12" @click="navToLibrary">
+      <van-col span="12" @click="navToPage('share')">
         <van-row>
            <van-image
             width="36vw"
@@ -49,7 +49,7 @@
             />
         </van-row>
         <van-row class="func-desc">
-          文档
+          分享
         </van-row>
       </van-col>      
     </van-row>
@@ -73,56 +73,27 @@ export default {
     }
   },
 
-  components: {
-  },
-
-  async onShow () {
-    // store.commit('setCatalog', getApp().globalData.tab || '')
-    // this._getList()
-    this.isLogin = await checkAuth()
-  },
-
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
+    async navToPage (option) {
+      wx.showToast({title: '加载中', icon: 'loading', duration: 10000})
+      this.isLogin = await checkAuth()
+      wx.hideToast()
+      // 判断用户是否已经登录，登录之后才能使用拍照功能
+      if (!this.isLogin) {
+        confirmAuth()
+      } else {
+        const url = `../${option}/main`
+        mpvue.navigateTo({url})
+      }
+    },
+    navToLibrary () {
+      const url = '../library/main'
       if (mpvuePlatform === 'wx') {
         mpvue.switchTab({ url })
       } else {
         mpvue.navigateTo({ url })
       }
-    },
-    navToNewDoc () {
-      // 判断用户是否已经登录，登录之后才能使用拍照功能
-      if (!this.isLogin) {
-        confirmAuth()
-        return
-      }
-      const url = '../newDoc/main'
-      console.log('taking photo')
-      mpvue.navigateTo({url})
-      // const ctx = wx.createCameraContext()
-      // ctx.takePhoto({
-      //   quality: 'high',
-      //   success: (res) => {
-      //     this.res = res
-      //     console.log(this.res)
-      //   }
-      // })
-    },
-
-    navToCamera () {
-      const url = '../camera/main'
-      wx.navigateTo({url})
-    },
-
-    navToLibrary () {
-      const url = '../library/main'
-      wx.navigateTo({url})
     }
-  },
-
-  created () {
-    // let app = getApp()
   }
 }
 </script>
