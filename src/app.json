@@ -1,8 +1,13 @@
 {
   "pages": [
     "pages/index/main",
-    "pages/logs/main",
-    "pages/counter/main"
+    "pages/counter/main",
+    "pages/auth/main",
+    "pages/newDoc/main",
+    "pages/camera/main",
+    "pages/library/main",
+    "pages/doc/main",
+    "pages/share/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -23,7 +28,7 @@
       "selectedIconPath": "static/tabs/home-active.png"
     }, {
       "text": "文档",
-      "pagePath": "pages/logs/main",
+      "pagePath": "pages/library/main",
       "iconPath": "static/tabs/library.png",
       "selectedIconPath": "static/tabs/library-active.png"
     }],
@@ -43,11 +48,22 @@
   },
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
+    "van-icon": "@vant/weapp/icon/index",
     "van-tab": "@vant/weapp/tab/index",
     "van-tabs": "@vant/weapp/tabs/index",
+    "van-dialog": "@vant/weapp/dialog/index",
     "van-row": "@vant/weapp/row/index",
     "van-col": "@vant/weapp/col/index",
-    "van-grid": "@vant/weapp/grid/index",
-    "van-grid-item": "@vant/weapp/grid-item/index"
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-picker": "@vant/weapp/picker/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-image": "@vant/weapp/image/index",
+    "van-overlay": "@vant/weapp/overlay/index",
+    "van-loading": "@vant/weapp/loading/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-card": "@vant/weapp/card/index",
+    "van-swipe-cell": "@vant/weapp/swipe-cell/index"
   }
 }

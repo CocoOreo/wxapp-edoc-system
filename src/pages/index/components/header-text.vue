@@ -29,10 +29,6 @@ export default {
       } else {
         mpvue.navigateTo({ url })
       }
-    },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
     }
   },
 
@@ -43,7 +39,6 @@ export default {
 </script>
 
 <style scoped>
-
 .container {
   padding-top:28px;
   padding-bottom: 1vh;
