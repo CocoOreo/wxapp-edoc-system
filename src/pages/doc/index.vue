@@ -23,7 +23,6 @@
       <van-button
         class="btn-pop"
         color="linear-gradient(to right, #2D2D2D, #2E2E2E)"
-        round
         custom-style="box-shadow:0px 2px 2px #3C3C3C; font-size:12px; padding: 2px 16vw"
         @click="handleShowPop"
       >查看文章详情</van-button>
@@ -42,10 +41,19 @@
       </van-row>
       <div class="btn-wrap">
           <van-button
+            @click="handleEdit"
+            color="linear-gradient(to right, #2D2D2D, #2E2E2E)"
+            round
+            custom-style="box-shadow:0px 2px 2px #3C3C3C; font-size:12px; padding: 2px 4vw"
+            v-if='this.doc.'
+          >
+            编辑文档
+          </van-button>
+          <van-button
             @click="handleSave"
             color="linear-gradient(to right, #2D2D2D, #2E2E2E)"
             round
-            custom-style="box-shadow:0px 2px 2px #3C3C3C; font-size:12px; padding: 2px 16vw"
+            custom-style="box-shadow:0px 2px 2px #3C3C3C; font-size:12px; padding: 2px 12vw"
           >
             保存文档为PDF
           </van-button>
@@ -140,6 +148,11 @@ export default {
           })
         }
       })
+    },
+    handleEdit () {
+      const docId = this.$mp.query.id
+      const url = `/pages/newDoc/main?tid=${docId}`
+      wx.navigateTo({url})
     }
   }
 }

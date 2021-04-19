@@ -3,13 +3,16 @@
         <!-- 上方文字提示部分 -->
         <div class="container">
             <van-row class="title">
-              <van-col offset="1">
+              <van-col offset="1" v-if="this.status === 'Add'">
                 上传图片
+              </van-col>
+              <van-col offset="1" v-else>
+                编辑文档
               </van-col>
             </van-row>
             <van-row class="desc">
               <van-col offset="1">
-                单次上传不能超过10张
+                单次上传请不要超过10张
               </van-col>
             </van-row>
         </div>
@@ -88,8 +91,9 @@
 
 <script>
 import { uploadImg } from '@/utils/upload'
-import { addNewDoc } from '@/api/doc'
+import { getDetail, addNewDoc, updateDoc } from '@/api/doc'
 import globalStore from '../../store/store'
+import config from '@/config/index'
 
 export default {
   name: 'photo',
@@ -101,18 +105,28 @@ export default {
       // 服务器返回的字符串
       imgList: [],
       sharedImgList: [],
+      finalImgList: [],
       block: ['请选择', '工作', '生活', '学习', '计划'],
       blockValue: ['default', 'work', 'life', 'study', 'plan'],
       blockIndex: 0,
       favs: [20, 30, 50, 60, 80],
       favsIndex: '',
       isLoading: false,
-      showPop: false
+      showPop: false,
+      status: 'Add',
+      doc: {}
     }
   },
   onShow () {
     // 从照相机拍照结束后，返回相册页面进行的操作
     this.handleCameraImg()
+    const tid = this.$mp.query.tid
+    if (!tid) {
+      return
+    }
+    this.status = 'Edit'
+    console.log('目前的状态是', this.status, tid)
+    this.getDocDetail(tid)
   },
   onUnload () {
     // 页面卸载时清空已有的所有文件等
@@ -163,34 +177,61 @@ export default {
     },
     async submit () {
       this.isLoading = true
-      addNewDoc({
+      const params = {
+        _id: this.status === 'Edit' ? this.$mp.query.tid : null,
         title: this.title || '我的文档',
         catalog: this.blockValue[this.blockIndex],
         content: this.docDesc || '每个人都有需要记录的故事',
         img_list: this.imgList,
         shared_img_list: this.sharedImgList
-      }).then((res) => {
-        this.isLoading = false
-        if (res.code === 200) {
-          this.handleClear()
-          wx.showToast({
-            title: '文档保存成功',
-            icon: 'none',
-            duration: 2000
-          })
-          // 清空已经发布的内容
-          setTimeout(() => {
-            const url = '/pages/index/main'
-            wx.switchTab({ url })
-          }, 500)
-        } else {
-          wx.showToast({
-            title: '文档上传失败，原因：' + res.errmsg,
-            icon: 'none',
-            duration: 2000
-          })
-        }
-      })
+      }
+      if (this.status === 'Add') {
+        addNewDoc(params).then((res) => {
+          this.isLoading = false
+          if (res.code === 200) {
+            this.handleClear()
+            wx.showToast({
+              title: '文档保存成功',
+              icon: 'none',
+              duration: 2000
+            })
+            // 清空已经发布的内容
+            setTimeout(() => {
+              const url = '/pages/index/main'
+              wx.switchTab({ url })
+            }, 500)
+          } else {
+            wx.showToast({
+              title: '文档上传失败，原因：' + res.errmsg,
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        })
+      } else {
+        updateDoc(params).then((res) => {
+          this.isLoading = false
+          if (res.code === 200) {
+            this.handleClear()
+            wx.showToast({
+              title: '文档保存成功',
+              icon: 'none',
+              duration: 2000
+            })
+            // 清空已经发布的内容
+            setTimeout(() => {
+              const url = '/pages/index/main'
+              wx.switchTab({ url })
+            }, 500)
+          } else {
+            wx.showToast({
+              title: '文档上传失败，原因：' + res.errmsg,
+              icon: 'none',
+              duration: 2000
+            })
+          }
+        })
+      }
     },
     deteleImg (e) {
       this.fileList.splice(e.mp.detail.index, 1)
@@ -222,11 +263,11 @@ export default {
           }
         })
         wx.showToast({
-          title: '分享列表重置成功'}
+          title: '重置成功'}
         )
       } catch (error) {
         wx.showToast({
-          title: '分享列表重置失败'}
+          title: '重置失败'}
         )
       }
     },
@@ -246,6 +287,42 @@ export default {
           break
       }
       // 初始情况下，所有图片都可被分享，这一部分允许用户删除照片
+    },
+    async getDocDetail (tid) {
+    // 从路由id中获取参数，查询对应文档的内容信息
+      console.log('获取到文档的tid->', tid)
+      await getDetail(tid).then(res => {
+        if (res.code === 200) {
+          this.doc = res.data
+          if (this.doc && this.doc.img_list) {
+            this.imgList = this.doc.img_list
+            this.sharedImgList = this.doc.shared_img_list
+            this.fileList = this.doc.img_list.map((imgUrl) => {
+              let isShared = this.doc.shared_img_list.indexOf(imgUrl) !== -1
+              if (!imgUrl.startsWith('http')) {
+                const baseUrl =
+                process.env.NODE_ENV === 'development'
+                  ? config.baseUrl.dev
+                  : config.baseUrl.pro
+                imgUrl = baseUrl + imgUrl
+                return {
+                  deletable: true,
+                  isImage: true,
+                  isShared,
+                  isVideo: false,
+                  thumb: imgUrl,
+                  type: 'image',
+                  url: imgUrl
+                }
+              }
+            })
+            console.log('get detail 得到的-》', this.finalImgList)
+            console.log('文件列表', this.fileList)
+            this.docDesc = this.doc.content
+            this.blockIndex = this.blockValue.indexOf(this.doc.catalog)
+          }
+        }
+      })
     }
   }
 }
