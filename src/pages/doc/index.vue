@@ -45,7 +45,6 @@
             color="linear-gradient(to right, #2D2D2D, #2E2E2E)"
             round
             custom-style="box-shadow:0px 2px 2px #3C3C3C; font-size:12px; padding: 2px 4vw"
-            v-if='this.doc.'
           >
             编辑文档
           </van-button>

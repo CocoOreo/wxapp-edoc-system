@@ -1,5 +1,6 @@
 <template>
     <div>
+     <simple-crop v-if="cropVisible" :size="cropSize" :src="cropSrc" :cropSizePercent="cropSizePercent" :borderColor="borderColor" @cropUpload="uploadCallback" @close="handleCropClose" @cropCrop="cropFinish($event)"></simple-crop>
         <!-- 上方文字提示部分 -->
         <div class="container">
             <van-row class="title">
@@ -114,7 +115,16 @@ export default {
       isLoading: false,
       showPop: false,
       status: 'Add',
-      doc: {}
+      doc: {},
+      cropSrc: null, // 裁剪图片地址
+      cropVisible: false, // 是否显示
+      cropSize: { // 裁剪尺寸
+        width: 320,
+        height: 568
+      },
+      cropSizePercent: 0.8, // 裁剪框显示比例
+      borderColor: '#fff', // 裁剪框边框颜色
+      cropResult: '' // 裁剪结果地址
     }
   },
   onShow () {
@@ -171,10 +181,33 @@ export default {
         }
       })
     },
+    async handleCrop (file) {
+      console.log('调用裁剪功能', file)
+      const {url} = file
+      this.cropSrc = url
+      this.cropVisible = true
+    },
+
+    handleCropClose () {
+      this.cropSrc = null
+      this.cropVisible = false
+    },
+
+    cropFinish (e) {
+      console.log('裁剪结果', e)
+      this.handleCropClose()
+      this.handleUpload({
+        url: e.mp.detail.resultSrc,
+        thumb: e.mp.detail.resultSrc,
+        type: 'image'
+      })
+    },
+
     async afterRead (e) {
       const file = e.mp.detail.file
-      this.handleUpload(file)
+      await this.handleCrop(file)
     },
+
     async submit () {
       this.isLoading = true
       const params = {
