@@ -65,7 +65,7 @@ export default {
         let imgList
         if (item.img_list) {
           imgList = item.img_list.map((imgUrl) => {
-            if (!imgUrl.startsWith('http')) {
+            if (imgUrl && !imgUrl.startsWith('http')) {
               const baseUrl =
                 process.env.NODE_ENV === 'development'
                   ? config.baseUrl.dev
@@ -116,6 +116,10 @@ export default {
   color:#3c3c3c;
   font-size: 12px;
   margin-bottom: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 200rpx;
 }
 .container-wrap {
   padding-top: 120px;

@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/main",
-    "pages/counter/main",
     "pages/auth/main",
     "pages/newDoc/main",
     "pages/camera/main",
@@ -64,6 +63,7 @@
     "van-cell-group": "@vant/weapp/cell-group/index",
     "van-popup": "@vant/weapp/popup/index",
     "van-card": "@vant/weapp/card/index",
-    "van-swipe-cell": "@vant/weapp/swipe-cell/index"
+    "van-swipe-cell": "@vant/weapp/swipe-cell/index",
+    "simple-crop": "simple-crop/wechat/index"
   }
 }

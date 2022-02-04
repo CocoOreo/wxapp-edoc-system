@@ -24,6 +24,10 @@ const reg = (regInfo) => {
 
 const addNewDoc = (data) => axios.post('/content/wxAdd', data)
 
+const updateDoc = (data) => axios.post('/content/wxUpdate', data)
+
+const deleteDoc = (data) => axios.post('/content/wxDelete', data)
+
 const getList = async (options) => {
   return axios.get('/content/list', options)
 }
@@ -57,4 +61,4 @@ const downloadPDF = async (tid) => {
   }
   return axios.post('/content/downloadPDF', {tid}, headers)
 }
-export { reg, addNewDoc, getList, getDetail, downloadPDF }
+export { reg, addNewDoc, getList, getDetail, downloadPDF, updateDoc, deleteDoc }

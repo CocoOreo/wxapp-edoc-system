@@ -10,8 +10,9 @@ const baseUrl =
 export const uploadImg = async (file) => {
   try {
     // 获取用户信息
+    console.log('file->', file)
     const token = await StoreToken.get()
-    let res // 作为压缩的返回对象
+    let res = {} // 作为压缩的返回对象
     if (file.size && file.size > 1024 * 2) {
       res = await wx.compressImage({
         src: file.url, // 图片路径
