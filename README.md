@@ -2,6 +2,38 @@
 
 > gradproj-wxapp
 
+# Screenshots
+
+### Home Page and Login
+<img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/HomePage.png" width="305" height="549"/> <img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/Login.png" width="305" height="549"/>
+
+### Image upload and setting
+<img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/Upload.png" width="305" height="549"/>  <img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/ChangeShareList.png" width="305" height="549" />
+
+### Image library and Image Detail
+<img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/Library.png" width="305" height="549"/> <img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/Doc.png" width="305" height="549"/>
+
+### Share and Share Detail
+<img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/Share.png" width="305" height="549"/> <img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/ShareDetail.png" width="305" height="549"/>
+
+### Image Watermark
+<img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/watermark.png" width="305" height="549"/>
+
+## Feature
+- [x] Wechat Login and JWT Authentication
+- [x] Choose Image and Upload
+- [x] Choose Picture Category
+- [x] Edit image (Rotate and Crop Pictures)
+- [x] Display a list of Pictures
+- [x] Set which pictures can be shared
+- [x] Picture security check, prohibit uploading illegal pictures or text description.
+- [x] Generate and download PDF documents for uploaded pictures.
+- [x] Picture Watermark (Base on User Id)
+- [x] detail page about pictures 
+- [x] login、register 
+- [x] change password 
+- [x] ...
+
 ## Build Setup
 
 ``` bash
