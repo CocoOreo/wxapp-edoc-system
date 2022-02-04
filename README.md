@@ -1,8 +1,11 @@
-# gradproj-wxapp
+# Marmot-Image-wxapp
 
-> gradproj-wxapp
+> A wechat mini program(wxapp) base on mpvue.js and Vant Design.
 
 # Screenshots
+
+### Summary
+<img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/summary.png" width="1200"/>
 
 ### Home Page and Login
 <img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/HomePage.png" width="305" height="549"/> <img src="https://github.com/CocoOreo/wxapp-edoc-system/blob/master/screenshots/Login.png" width="305" height="549"/>
