@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/main",
-    "pages/counter/main",
     "pages/auth/main",
     "pages/newDoc/main",
     "pages/camera/main",

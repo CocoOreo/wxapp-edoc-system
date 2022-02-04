@@ -4,7 +4,7 @@
         <!-- 上方文字提示部分 -->
         <div class="container">
             <van-row class="title">
-              <van-col offset="1" v-if="this.status === 'Add'">
+              <van-col offset="1" v-if="status === 'Add'">
                 上传图片
               </van-col>
               <van-col offset="1" v-else>
@@ -19,7 +19,7 @@
         </div>
         <!-- 上传文档选项 -->
         <div class="upload-img">
-          <van-uploader @afterRead="afterRead" :fileList="fileList" @delete="deteleImg"></van-uploader>
+          <van-uploader @afterRead="afterRead" :fileList="fileList" @delete="deleteImg"></van-uploader>
         </div>
         <!-- 文档分享列表 -->
         <van-cell center title="更改分享列表"  is-link="true"  @click="handleShowPop" />
@@ -77,7 +77,9 @@
         <!-- 按钮组 -->
         <div class="btn-wrap">
           <van-button class="btn-add" color="#2D2D2D" round 
-          @click="handleTakePhoto">+继续拍照</van-button>
+          @click="handleTakePhoto" v-if="status === 'Add'">+继续拍照</van-button>
+          <van-button class="btn-add" color="#f44" round 
+          @click="handleDeleteDoc" v-else>删除文档</van-button>
           <van-button class="btn-submit" color="#101010" round 
           @click="submit()">发布</van-button>
         </div>
@@ -87,14 +89,17 @@
              <van-loading color="#1989fa" vertical>加载中</van-loading>
           </div>
         </van-overlay>
+        <!-- 提示层 -->
+        <van-dialog id="van-dialog" />
     </div>
 </template>
 
 <script>
 import { uploadImg } from '@/utils/upload'
-import { getDetail, addNewDoc, updateDoc } from '@/api/doc'
+import { getDetail, addNewDoc, updateDoc, deleteDoc } from '@/api/doc'
 import globalStore from '../../store/store'
 import config from '@/config/index'
+import Dialog from '@vant/weapp/dist/dialog/dialog'
 
 export default {
   name: 'photo',
@@ -110,8 +115,6 @@ export default {
       block: ['请选择', '工作', '生活', '学习', '计划'],
       blockValue: ['default', 'work', 'life', 'study', 'plan'],
       blockIndex: 0,
-      favs: [20, 30, 50, 60, 80],
-      favsIndex: '',
       isLoading: false,
       showPop: false,
       status: 'Add',
@@ -127,16 +130,17 @@ export default {
       cropResult: '' // 裁剪结果地址
     }
   },
-  onShow () {
-    // 从照相机拍照结束后，返回相册页面进行的操作
-    this.handleCameraImg()
+  onLoad () {
     const tid = this.$mp.query.tid
     if (!tid) {
       return
     }
-    this.status = 'Edit'
-    console.log('目前的状态是', this.status, tid)
     this.getDocDetail(tid)
+    this.status = 'Edit'
+  },
+  onShow () {
+    // 从照相机拍照结束后，返回相册页面进行的操作
+    this.handleCameraImg()
   },
   onUnload () {
     // 页面卸载时清空已有的所有文件等
@@ -235,7 +239,7 @@ export default {
             }, 500)
           } else {
             wx.showToast({
-              title: '文档上传失败，原因：' + res.errmsg,
+              title: '文档上传失败，原因：' + res.msg,
               icon: 'none',
               duration: 2000
             })
@@ -258,7 +262,7 @@ export default {
             }, 500)
           } else {
             wx.showToast({
-              title: '文档上传失败，原因：' + res.errmsg,
+              title: '内容安全检查未通过',
               icon: 'none',
               duration: 2000
             })
@@ -266,10 +270,11 @@ export default {
         })
       }
     },
-    deteleImg (e) {
+    deleteImg (e) {
       this.fileList.splice(e.mp.detail.index, 1)
       this.imgList.splice(e.mp.detail.index, 1)
       this.sharedImgList.splice(e.mp.detail.index, 1)
+      console.log('点击删除图片', this.fileList)
     },
     changePostType (e) {
       this.blockIndex = e.target.value
@@ -356,6 +361,41 @@ export default {
           }
         }
       })
+    },
+    async handleDeleteDoc () {
+      Dialog.confirm({
+        title: '删除文档',
+        message: '您确定要删除文档吗？'
+      })
+        .then(() => {
+          this.isLoading = true
+          const tid = this.$mp.query.tid
+          const params = { tid }
+          deleteDoc(params).then((res) => {
+            this.isLoading = false
+            if (res.code === 200) {
+              wx.showToast({
+                title: '文档删除成功',
+                icon: 'none',
+                duration: 2000
+              })
+              // 清空已经发布的内容
+              setTimeout(() => {
+                const url = '/pages/index/main'
+                wx.switchTab({ url })
+              }, 100)
+            } else {
+              wx.showToast({
+                title: '文档删除失败，原因：' + res.errmsg,
+                icon: 'none',
+                duration: 2000
+              })
+            }
+          })
+        })
+        .catch(() => {
+
+        })
     }
   }
 }

@@ -43,7 +43,6 @@
           <van-button
             @click="handleEdit"
             color="linear-gradient(to right, #2D2D2D, #2E2E2E)"
-            round
             custom-style="box-shadow:0px 2px 2px #3C3C3C; font-size:12px; padding: 2px 4vw"
           >
             编辑文档
@@ -51,7 +50,6 @@
           <van-button
             @click="handleSave"
             color="linear-gradient(to right, #2D2D2D, #2E2E2E)"
-            round
             custom-style="box-shadow:0px 2px 2px #3C3C3C; font-size:12px; padding: 2px 12vw"
           >
             保存文档为PDF
